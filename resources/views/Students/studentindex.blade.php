@@ -2,104 +2,167 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Students</title>
     <style>
-        .top-left {
-            position: absolute;
-            top: 20px;
-            left: 20px;
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
         }
 
-        .top-right {
-            position: absolute;
-            top: 20px;
-            right: 20px;
+        h1 {
+            text-align: center;
+            margin: 20px 0;
+            color: #333;
         }
 
-        .button {
-            padding: 10px 15px;
-            background-color: #007BFF;
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            padding: 20px;
+            background-color: #007bff;
             color: white;
-            text-decoration: none;
-            border-radius: 5px;
-            display: inline-block;
         }
 
-        .button-secondary {
-            background-color: #6C757D;
+        .top-bar a {
+            text-decoration: none;
+            padding: 10px 15px;
+            color: white;
+            background-color: #6c757d;
+            border-radius: 5px;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+
+        .top-bar a:hover {
+            background-color: #0056b3;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 60px; /* Adjusted to give space for the buttons */
+            margin-top: 20px;
         }
 
-        th, td {
-            border: 1px solid black;
-            padding: 8px;
+        table th, table td {
+            border: 1px solid #ddd;
+            padding: 10px;
             text-align: left;
         }
 
-        th {
+        table th {
+            background-color: #007bff;
+            color: white;
+        }
+
+        table tr:nth-child(even) {
             background-color: #f2f2f2;
         }
 
-        body {
-            margin: 0;
-            padding: 0;
-            font-family: Arial, sans-serif;
+        table tr:hover {
+            background-color: #ddd;
+        }
+
+        .actions a, .actions button {
+            text-decoration: none;
+            padding: 5px 10px;
+            margin-right: 5px;
+            color: white;
+            background-color: #007bff;
+            border: none;
+            border-radius: 5px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .actions a:hover, .actions button:hover {
+            background-color: #0056b3;
+        }
+
+        .actions button:hover {
+            background-color: #e74c3c;
+        }
+
+        @media (max-width: 768px) {
+            table, table th, table td {
+                font-size: 14px;
+            }
+
+            .top-bar a {
+                font-size: 14px;
+            }
         }
     </style>
 </head>
 <body>
-    <!-- Home Button -->
-    <div class="top-left">
-        <a href="{{ url('/') }}" class="button button-secondary">Home</a>
+    <!-- Top Navigation Bar -->
+    <div class="top-bar">
+        <a href="{{ url('/') }}">Home</a>
+        <a href="{{ route('Students.studentregister') }}">Add Student</a>
     </div>
 
-    <!-- Add Student Button -->
-    <div class="top-right">
-        <a href="{{ route('Students.studentregister') }}" class="button">Add Student</a>
-    </div>
+    <h1>Students</h1>
 
-    <h1 style="text-align: center; margin-top: 50px;">Students</h1>
-
-    <div>
+    <div class="container">
         <table>
-            <tr>
-                <th>ID</th>
-                <th>First Name</th>
-                <th>Last Name</th>
-                <th>Show</th>
-                <th>Edit</th>
-                <th>Delete</th>
-            </tr>
-            @foreach($Students as $student)
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Enrollment Status</th>
+                    <th>Show</th>
+                    <th>Edit</th>
+                    <th>Delete</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach($Students as $student)
                 <tr>
                     <td>{{ $student->id }}</td>
                     <td>{{ $student->first_name }}</td>
                     <td>{{ $student->last_name }}</td>
                     <td>
+                        @if($student->program)
+                            <span style="color: green;">Enrolled</span>
+                        @else
+                            <span style="color: red;">Not Enrolled</span>
+                        @endif
+                    </td>
+                    <td class="actions">
                         <a href="{{ route('Students.studentshow', ['student' => $student]) }}">Show</a>
                     </td>
-                    <td>
+                    <td class="actions">
                         <a href="{{ route('Students.studentedit', ['student' => $student]) }}">Edit</a>
                     </td>
-                    <td>
-                        <form method="post" action="{{ route('Students.studentdelete', ['student' => $student]) }}" style="display:inline;">
+                    <td class="actions">
+                        <form method="POST" action="{{ route('Students.studentdelete', ['student' => $student]) }}" style="display:inline;">
                             @csrf
-                            @method('delete')
+                            @method('DELETE')
                             <button type="submit" onclick="return confirm('Are you sure you want to delete this student?');">Delete</button>
                         </form>
                     </td>
                 </tr>
-            @endforeach
+                @endforeach
+            </tbody>
         </table>
     </div>
 </body>
 </html>
+
+
 
 
 

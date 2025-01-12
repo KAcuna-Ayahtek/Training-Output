@@ -44,14 +44,13 @@
             <h1>Ayahtek University</h1>
         </div>
         <div class="nav-buttons">
-            <!-- Students Button -->
+           
             <button onclick="window.location.href='{{ route('Students.studentindex') }}'">Students</button>
-
-            <!-- Programs Button -->
+            
             <button onclick="window.location.href='{{ route('Programs.programindex') }}'">Programs</button>
+            
+            <button onclick="window.open('{{ url('Diagram.png.png') }}', '_blank')">Diagram</button>
 
-            <!-- ERD Button -->
-            <button onclick="window.open('{{ url('DBdiagram.png') }}', '_blank')">ERD Diagram</button>
         </div>
     </header>
 </body>

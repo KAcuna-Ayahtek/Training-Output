@@ -5,78 +5,138 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Programs</title>
     <style>
-        .top-left {
-            position: absolute;
-            top: 20px; /* Adjusted for alignment with the table */
-            left: 20px;
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
         }
 
-        .top-right {
-            position: absolute;
-            top: 20px; /* Adjusted for alignment with the table */
-            right: 20px;
+        h1 {
+            text-align: center;
+            margin-top: 20px;
+            color: #333;
         }
 
-        .button {
-            padding: 10px 15px;
-            background-color: #007BFF;
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            padding: 20px;
+            background-color: #007bff;
             color: white;
-            text-decoration: none;
-            border-radius: 5px;
-            display: inline-block;
         }
 
-        .button-secondary {
-            background-color: #6C757D;
+        .top-bar a {
+            text-decoration: none;
+            padding: 10px 15px;
+            color: white;
+            background-color: #6c757d;
+            border-radius: 5px;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+
+        .top-bar a:hover {
+            background-color: #0056b3;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 60px; /* Adjusted to give space for the buttons */
+            margin-top: 20px;
         }
 
-        th, td {
-            border: 1px solid black;
-            padding: 8px;
+        table th, table td {
+            border: 1px solid #ddd;
+            padding: 10px;
             text-align: left;
         }
 
-        th {
+        table th {
+            background-color: #007bff;
+            color: white;
+        }
+
+        table tr:nth-child(even) {
             background-color: #f2f2f2;
         }
 
-        body {
-            margin: 0;
-            padding: 0;
-            font-family: Arial, sans-serif;
+        table tr:hover {
+            background-color: #ddd;
+        }
+
+        ul {
+            padding-left: 20px;
+        }
+
+        .actions a, .actions button {
+            text-decoration: none;
+            padding: 5px 10px;
+            margin-right: 5px;
+            color: white;
+            background-color: #007bff;
+            border: none;
+            border-radius: 5px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .actions a:hover, .actions button:hover {
+            background-color: #0056b3;
+        }
+
+        .actions button {
+            padding: 5px 10px;
+        }
+
+        .actions button:hover {
+            background-color: #e74c3c;
+        }
+
+        @media (max-width: 768px) {
+            table, table th, table td {
+                font-size: 14px;
+            }
+
+            .top-bar a {
+                font-size: 14px;
+            }
         }
     </style>
 </head>
 <body>
-    <!-- Home Button -->
-    <div class="top-left">
-        <a href="{{ url('/') }}" class="button button-secondary">Home</a>
+    <!-- Top Navigation Bar -->
+    <div class="top-bar">
+        <a href="{{ url('/') }}">Home</a>
+        <a href="{{ route('Programs.programadd') }}">Add Program</a>
     </div>
 
-    <!-- Add Program Button -->
-    <div class="top-right">
-        <a href="{{ route('Programs.programadd') }}" class="button">Add Program</a>
-    </div>
+    <h1>Programs</h1>
 
-    <h1 style="text-align: center; margin-top: 50px;">Programs</h1>
-
-    <div>
+    <div class="container">
         <table>
-            <tr>
-                <th>ID</th>
-                <th>Program Name</th>
-                <th>Specialization</th>
-                <th>Description</th>
-                <th>Subjects</th>
-                <th>Actions</th> <!-- Added Actions column -->
-            </tr>
-            @foreach($Programs as $program)
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Program Name</th>
+                    <th>Specialization</th>
+                    <th>Description</th>
+                    <th>Subjects</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach($Programs as $program)
                 <tr>
                     <td>{{ $program->id }}</td>
                     <td>{{ $program->program_name }}</td>
@@ -89,7 +149,7 @@
                             @endforeach
                         </ul>
                     </td>
-                    <td>
+                    <td class="actions">
                         <!-- Edit Button -->
                         <a href="{{ route('Programs.programedit', $program->id) }}">Edit</a>
 
@@ -101,11 +161,13 @@
                         </form>
                     </td>
                 </tr>
-            @endforeach
+                @endforeach
+            </tbody>
         </table>
     </div>
 </body>
 </html>
+
 
 
 
